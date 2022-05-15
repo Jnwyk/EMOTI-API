@@ -45,6 +45,14 @@ db.emotion_stats = require('./emotion_stats.model.js')(sequelize, DataTypes);
 db.child.belongsToMany(db.emotion, { through: db.emotion_stats });
 db.emotion.belongsToMany(db.child, { through: db.emotion_stats });
 
+db.game_question = require('./game_question.model')(sequelize, DataTypes);
+db.link_child_psychologist = require('./link_tutor_psychologist.model')(sequelize, DataTypes);
+
+db.emotion.belongsToMany(db.game, { through: db.game_question });
+db.game.belongsToMany(db.emotion, { through: db.game_question });
+
+db.psychologist.belongsToMany(db.tutor, { through: db.link_child_psychologist });
+db.tutor.belongsToMany(db.psychologist, { through: db.link_child_psychologist });
 
 
 
