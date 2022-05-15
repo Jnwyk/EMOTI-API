@@ -33,16 +33,14 @@ module.exports = (sequelize, DataTypes) => {
             }
         },
         gender: {
-            //is it okay?????????
-            type: DataTypes.ENUM('male', 'female'),
+            type: DataTypes.BOOLEAN,
             allowNull: false,
             validate: {
                 notNull: { message: 'GENDER!' } 
             }
         },
         image: {
-            //is it okay?????????
-            type: DataTypes.BLOB
+            type: DataTypes.STRING
         },
         birth_date: {
             type: DataTypes.DATE,

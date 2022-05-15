@@ -1,5 +1,5 @@
 const db = require("../models/index.js");
-const Chil = db.child;
+const Child = db.child;
 
 exports.getAll = async (req, res) => {
     res.status(200).json({ message: 'All okay'})

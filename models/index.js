@@ -34,8 +34,8 @@ db.game = require('./games.model.js')(sequelize, DataTypes);
 
 db.question.belongsTo(db.psychologist, { foreignKey: 'username_psychologist'});
 db.question.belongsTo(db.tutor, { foreignKey: 'username_tutor'});
-db.tutor.hasMany(db.question, {onDelete: 'CASCADE'})
-db.psychologist.hasMany(db.question, {onDelete: 'CASCADE'})
+// db.tutor.hasMany(db.question, {onDelete: 'CASCADE'})
+// db.psychologist.hasMany(db.question, {onDelete: 'CASCADE'})
 
 
 db.child = require('./child.model.js')(sequelize, DataTypes);
