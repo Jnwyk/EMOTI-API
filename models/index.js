@@ -38,7 +38,7 @@ db.question.belongsTo(db.tutor, { foreignKey: 'username_tutor'});
 // db.psychologist.hasMany(db.question, {onDelete: 'CASCADE'})
 
 
-db.child = require('./child.model.js')(sequelize, DataTypes);
+db.child = require('./children.model.js')(sequelize, DataTypes);
 db.emotion = require('./emotions.model.js')(sequelize, DataTypes);
 db.emotion_stats = require('./emotion_stats.model.js')(sequelize, DataTypes);
 

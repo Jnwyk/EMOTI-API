@@ -14,7 +14,7 @@ router.route('/')
 router.use('/:idC/emotion_stats', emotionStatsRouter);
 
 router.all('*', (req, res) => {
-    res.status(404).json({message: 'page questions not found'});
+    res.status(404).json({message: 'NOT FOUND'});
 })
 
 module.exports = router;
