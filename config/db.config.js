@@ -2,7 +2,8 @@ const config = {
     HOST: process.env.DB_HOST ,
     USER: process.env.DB_USER ,
     PASSWORD: process.env.DB_PASSWORD ,
-    DB: process.env.DB_NAME 
+    DB: process.env.DB_NAME ,
+    SECRET: process.env.SECRET
     ,
     dialect: "mysql",
     // pool is optional, it will be used for Sequelize connection pool configuration
