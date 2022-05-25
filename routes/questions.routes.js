@@ -9,10 +9,10 @@ let router = express.Router({mergeParams: true})
 router.route('/')
     .get(questionController.getAll)
     .post(questionController.create)
-    .patch(authController.verifyToken, questionController.answer);
 
 router.route('/:id')
-    .get(questionController.getOne);
+    .get(questionController.getOne)
+    .patch(questionController.answer);
 
 router.all('*', (req, res) => {
     res.status(404).json({message: 'NOT FOUND'});

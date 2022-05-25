@@ -26,7 +26,7 @@ module.exports = (sequelize, DataTypes) => {
             }
         },
         gender: {
-            type: DataTypes.BOOLEAN,
+            type: DataTypes.ENUM('male', 'female'),
             allowNull: false,
             validate: {
                 notNull: { message: 'GENDER!' } 
