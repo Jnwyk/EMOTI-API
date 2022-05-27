@@ -12,8 +12,8 @@ router.route('/')
     .post(childController.create)
     .put(authController.verifyToken, childController.changePassword);
 
-router.route('/login')
-    .post(childController.login);
+// router.route('/login')
+    // .post(childController.login);
 
 router.use('/:idC/emotion_stats', emotionStatsRouter);
 

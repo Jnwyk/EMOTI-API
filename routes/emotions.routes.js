@@ -8,7 +8,7 @@ router.route('/')
     .post(emotionsController.create)
     .put(emotionsController.changeEmotion);
 
-router.route('/:idE')
+router.route('/:id')
     .get(emotionsController.getOne);
 
 router.all('*', (req, res) => {

@@ -1,6 +1,7 @@
 const express = require('express');
 
 const gameController = require('../controllers/games.controller.js');
+const authController = require('../controllers/auth.controller.js');
 
 const emotionsRouter = require('../routes/emotions.routes.js');
 
@@ -12,9 +13,12 @@ router.route('/')
 
 // is this necessary?
 router.route('/:id')
-    .get(gameController.getOne);
+    .get(authController.verifyToken, gameController.getOne);
 
-router.use('/:idG/emotions', emotionsRouter);
+    // games/:id/questions
+
+// How to deal with getting a few emotions?????
+// router.use('/:idG/emotions', emotionsRouter);
 
 router.all('*', (req, res) => {
     res.status(404).json({message: 'NOT FOUND'});

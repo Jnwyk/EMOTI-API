@@ -60,7 +60,7 @@ db.tutor.belongsToMany(db.child, { through: db.link_child_tutor });
 
 (async () => {
     try {
-        await sequelize.sync();
+        await sequelize.sync({ alter: true });
         console.log('DB is successfully synchronized')
     } catch (error) {
         console.log(error)

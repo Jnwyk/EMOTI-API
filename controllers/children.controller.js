@@ -17,7 +17,3 @@ exports.changePassword = async (req, res) => {
 exports.getOne = async (req, res) => {
     res.status(200).json({ success: true, message: 'User was found', username: 'username'})
 }
-
-exports.login = async (req, res) => {
-    
-}

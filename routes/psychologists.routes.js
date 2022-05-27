@@ -10,8 +10,8 @@ router.route('/')
     .post(psychologistsController.create)
     .put(authController.verifyToken, psychologistsController.changePassword);
 
-    router.route('/login')
-    .post(psychologistsController.login);
+// router.route('/login')
+//     .post(psychologistsController.login);
 
 router.all('*', (req, res) => {
     res.status(404).json({message: 'NOT FOUND'});

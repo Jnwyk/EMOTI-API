@@ -18,6 +18,8 @@ app.use('/games', require('./routes/games.routes.js'));
 app.use('/tutors', require('./routes/tutors.routes.js'));
 app.use('/psychologists', require('./routes/psychologists.routes.js'));
 app.use('/children', require('./routes/children.routes.js'));
+app.use('/emotions', require('./routes/emotions.routes'));
+app.use('/login', require('./routes/login.routes.js'));
 
 app.get('*', (req, res) =>{
     res.status(404).json({ message: 'Couldn\'t find a page'})
