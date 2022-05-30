@@ -1,6 +1,6 @@
 module.exports = (sequelize, DataTypes) => {
     const Tutor = sequelize.define('tutor', {
-        username_tutor: {
+        username: {
             type: DataTypes.STRING,
             allowNull: false,
             primaryKey: true,

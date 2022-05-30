@@ -2,11 +2,6 @@ const { ValidationError } = require("sequelize");
 const db = require("../models/index.js");
 const Game = db.game;
 
-// not necessary
-exports.getAll = async (req, res) => {
-    res.status(200).json({ success: true, message: 'Games successfully retrieved'})
-}
-
 exports.create = async (req, res) => {
     try{
         if(!req.body || !req.body.name || !req.body.description){

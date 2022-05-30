@@ -10,7 +10,7 @@ let router = express.Router({mergeParams: true})
 router.route('/')
     .get(childController.getAll)
     .post(childController.create)
-    .put(authController.verifyToken, childController.changePassword);
+    .patch(authController.verifyToken, childController.changePassword);
 
 // router.route('/login')
     // .post(childController.login);

@@ -8,7 +8,6 @@ const emotionsRouter = require('../routes/emotions.routes.js');
 let router = express.Router({mergeParams: true})
 
 router.route('/')
-    .get(gameController.getAll)
     .post(gameController.create);
 
 // is this necessary?

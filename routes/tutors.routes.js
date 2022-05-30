@@ -8,7 +8,7 @@ let router = express.Router({mergeParams: true})
 router.route('/')
     .get(tutorController.getAll)
     .post(tutorController.create)
-    .put(authController.verifyToken, tutorController.changePassword);
+    .patch(authController.verifyToken, tutorController.changePassword);
 
 
 // router.route('/login')

@@ -13,7 +13,7 @@ exports.create = async (req, res) => {
             return res.status(400).json({ success: false, msg: "Not enough data provided" });
         }
         await Psychologist.create({
-            username_psychologist: req.body.username,
+            username: req.body.username,
             name: req.body.name,
             password: bcrypt.hashSync(req.body.password, 10),
             gender: req.body.gender,
@@ -34,7 +34,24 @@ exports.create = async (req, res) => {
 }
 
 exports.changePassword = async (req, res) => {
-    res.status(200).json({ success: true, message: 'Password was successfully changed.'})
+    try{
+        if(req.loggedUsername !== req.body.username || req.loggedRole !== 'psychologist'){
+            return res.status(400).json({ success: false, msg: "User not allowed" });
+        }
+        if(!req.body.password){
+            return res.status(400).json({ success: false, msg: "Not enough data provided" });
+        }
+        Psychologist.update({
+            password: bcrypt.hashSync(req.body.password, 10)
+        }, { where: { username: req.loggedUsername } });
+        res.status(200).json({ success: true, msg: 'Password was successfully changed.'});
+    }
+    catch(err){
+        if(err instanceof ValidationError)
+            res.status(400).json({ success: false, msg: err.errors.map(e => e.message) });
+        else
+            res.status(500).json({ success: false, msg: err.message || "An error occurred."});
+    }
 }
 
 exports.getOne = async (req, res) => {

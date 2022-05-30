@@ -20,6 +20,7 @@ exports.verifyToken = (req, res, next) => {
     try{
         let decoded = jwt.verify(token, config.SECRET)
         req.loggedUsername = decoded.username;
+        req.loggedRole = decoded.role;
         next();
     }
     catch{
@@ -35,20 +36,20 @@ exports.login = async (req, res) => {
         
         let user;
         if(req.body.role === 'child'){
-            user = await Child.findOne({ where: { username_child: req.body.username } });
+            user = await Child.findOne({ where: { username: req.body.username } });
             if(!user){
                 return res.status(400).json({ success: false, msg: "No user found" });
             }
         }
         else if(req.body.role === 'tutor'){
             console.log(Tutor);
-            user = await Tutor.findOne({ where: { username_tutor: req.body.username } });
+            user = await Tutor.findOne({ where: { username: req.body.username } });
             if(!user){
                 return res.status(400).json({ success: false, msg: "No user found" });
             }
         }
         else if(req.body.role === 'psychologist'){
-            user = await Psychologist.findOne({ where: { username_psychologist: req.body.username } });
+            user = await Psychologist.findOne({ where: { username: req.body.username } });
             if(!user){
                 return res.status(400).json({ success: false, msg: "No user found" });
             }
@@ -56,12 +57,11 @@ exports.login = async (req, res) => {
         else{
             return res.status(400).json({ success: false, msg: "Role does not exist" });
         }
-        console.log(user.password, "\n", req.body.password);
-        // const check = bcrypt.compareSync(req.body.password, user.password);
-        // console.log(check);
-        // if(!check){
-        //     return res.status(401).json({ success: false, msg: "Wrong password" });
-        // }
+        
+        const check = bcrypt.compareSync(req.body.password, user.password);
+        if(!check){
+            return res.status(401).json({ success: false, msg: "Wrong password" });
+        }
 
         const token = jwt.sign({ username: req.body.username, role: req.body.role },
             config.SECRET, { expiresIn: "24h" });
