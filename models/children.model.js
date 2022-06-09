@@ -11,7 +11,7 @@ module.exports = (sequelize, DataTypes) => {
             allowNull: false,
             validate: { notNull: { msg: 'NAME!' } }
         },
-        email_tutor: {
+        tutor: {
             type: DataTypes.STRING,
             allowNull: false,
             validate: {

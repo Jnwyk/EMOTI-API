@@ -41,7 +41,7 @@ db.question.belongsTo(db.tutor, { foreignKey: 'username_tutor'});
 db.child.belongsToMany(db.emotion, { through: db.emotion_stats });
 db.emotion.belongsToMany(db.child, { through: db.emotion_stats });
 
-db.child.belongsTo(db.tutor, { foreignKey: 'email_tutor' });
+db.child.belongsTo(db.tutor, { foreignKey: 'tutor' });
 
 db.emotion.belongsToMany(db.game, { through: db.game_question });
 db.game.belongsToMany(db.emotion, { through: db.game_question });

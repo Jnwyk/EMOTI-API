@@ -12,17 +12,30 @@ exports.create = async (req, res) => {
         if(!req.body || !req.body.username || !req.body.name || !req.body.password || !req.body.gender || !req.body.bod || !req.body.email || !req.body.degree){
             return res.status(400).json({ success: false, msg: "Not enough data provided" });
         }
-        await Psychologist.create({
-            username: req.body.username,
-            name: req.body.name,
-            password: bcrypt.hashSync(req.body.password, 10),
-            gender: req.body.gender,
-            birth_date: req.body.bod,
-            image: req.body.image,
-            email: req.body.email,
-            degree: req.body.degree
-        })
-        return res.status(201).json({ success: true, message: "New user created", username: req.body.username });
+        
+        const birthDate = new Date(req.body.bod);
+        if(req.body.gender !== 'male' && req.body.gender !== 'female'){
+            return res.status(400).json({ success: false, msg: "Wrong gender" });
+        }
+        else if(!/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(req.body.email)){
+            return res.status(400).json({ success: false, msg: "Wrong email" });
+        }
+        else if(birthDate >= Date.now()){
+            return res.status(400).json({ success: false, msg: "Wrong birth date" });
+        }
+        else{
+            await Psychologist.create({
+                username: req.body.username,
+                name: req.body.name,
+                password: bcrypt.hashSync(req.body.password, 10),
+                gender: req.body.gender,
+                birth_date: req.body.bod,
+                image: req.body.image,
+                email: req.body.email,
+                degree: req.body.degree
+            })
+            return res.status(201).json({ success: true, message: "New user created", username: req.body.username });
+        }
     }
     catch(err){
         if(err instanceof ValidationError)

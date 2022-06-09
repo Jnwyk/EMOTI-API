@@ -17,19 +17,6 @@ exports.findAll = async (req, res) => {
     }
 }
 
-exports.create = async (req, res) => {
-    try{
-        if(!req.body || !req.body.childUsername || !req.body.emotionId){
-            return res.status(400).json({ success: false, msg: 'Not enough data provided'});
-        }
-        let childEmotion = EmotionStat.create({
-            
-        })
-    }
-    catch(err){
-        if(err instanceof ValidationError)
-            return res.status(400).json({ success: false, msg: err.errors.map(e => e.message) });
-        else
-            return res.status(500).json({ success: false, msg: err.message || "An error occurred."});
-    }
+exports.changeStats = async (req, res) => {
+    return res.status(201).json({ success: true });
 }
