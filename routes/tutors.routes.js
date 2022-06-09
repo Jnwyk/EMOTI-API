@@ -6,10 +6,12 @@ const authController = require('../controllers/auth.controller.js');
 let router = express.Router({mergeParams: true})
 
 router.route('/')
-    .get(tutorController.getAll)
     .post(tutorController.create)
     .patch(authController.verifyToken, tutorController.changePassword);
 
+
+router.route('/:id')
+    .get(authController.verifyToken, tutorController.getOne)
 
 // router.route('/login')
 //     .post(tutorController.login);

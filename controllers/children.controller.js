@@ -3,10 +3,6 @@ const bcrypt = require('bcrypt');
 const { ValidationError } = require("sequelize");
 const Child = db.child;
 
-exports.getAll = async (req, res) => {
-    res.status(200).json({ success: true, message: 'Child users successfully retrieved'})
-}
-
 exports.create = async (req, res) => {
     try{
         if(!req.body || !req.body.username || !req.body.name || !req.body.password || !req.body.gender || !req.body.bod || !req.body.autism_level){

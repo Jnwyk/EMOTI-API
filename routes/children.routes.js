@@ -8,9 +8,11 @@ const emotionStatsRouter = require('../routes/emotion_stats.routes.js');
 let router = express.Router({mergeParams: true})
 
 router.route('/')
-    .get(childController.getAll)
     .post(childController.create)
     .patch(authController.verifyToken, childController.changePassword);
+
+router.route('/:id')
+    .get(authController.verifyToken, childController.getOne)
 
 // router.route('/login')
     // .post(childController.login);

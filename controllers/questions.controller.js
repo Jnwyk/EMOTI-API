@@ -51,9 +51,9 @@ exports.answer = async (req, res) => {
     }
     catch(err){
         if(err instanceof ValidationError)
-            res.status(400).json({ success: false, msg: err.errors.map(e => e.message) });
+            return res.status(400).json({ success: false, msg: err.errors.map(e => e.message) });
         else
-            res.status(500).json({ success: false, msg: err.message || "An error occurred."});
+            return res.status(500).json({ success: false, msg: err.message || "An error occurred."});
     }
 }
 
@@ -67,8 +67,8 @@ exports.getOne = async (req, res) => {
     }
     catch(err){
         if(err instanceof ValidationError)
-            res.status(400).json({ success: false, msg: err.errors.map(e => e.message) });
+            return res.status(400).json({ success: false, msg: err.errors.map(e => e.message) });
         else
-            res.status(500).json({ success: false, msg: err.message || "An error occurred."});
+            return res.status(500).json({ success: false, msg: err.message || "An error occurred."});
     }
 }

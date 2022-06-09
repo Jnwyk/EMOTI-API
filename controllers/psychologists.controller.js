@@ -23,13 +23,13 @@ exports.create = async (req, res) => {
             email: req.body.email,
             degree: req.body.degree
         })
-        res.status(201).json({ success: true, message: "New user created", username: req.body.username });
+        return res.status(201).json({ success: true, message: "New user created", username: req.body.username });
     }
     catch(err){
         if(err instanceof ValidationError)
-            res.status(400).json({ success: false, msg: err.errors.map(e => e.message) });
+            return res.status(400).json({ success: false, msg: err.errors.map(e => e.message) });
         else
-            res.status(500).json({ success: false, msg: err.message || "An error occurred."});
+            return res.status(500).json({ success: false, msg: err.message || "An error occurred."});
     }
 }
 
@@ -48,12 +48,24 @@ exports.changePassword = async (req, res) => {
     }
     catch(err){
         if(err instanceof ValidationError)
-            res.status(400).json({ success: false, msg: err.errors.map(e => e.message) });
+            return res.status(400).json({ success: false, msg: err.errors.map(e => e.message) });
         else
-            res.status(500).json({ success: false, msg: err.message || "An error occurred."});
+            return res.status(500).json({ success: false, msg: err.message || "An error occurred."});
     }
 }
 
 exports.getOne = async (req, res) => {
-    res.status(200).json({ success: true, message: 'User was found', username: 'username'})
+    try{
+        if(req.loggedRole !== 'psychologist' || req.loggedUsername !== req.params.id){
+            return res.status(400).json({ success: false, msg: "User not allowed" });
+        }
+        let user = Psychologist.findOne({ where: { username: req.params.id } });
+        return res.status(200).json({ success: true, message: 'User was found', user: user})
+    }
+    catch(err){
+        if(err instanceof ValidationError)
+            return res.status(400).json({ success: false, msg: err.errors.map(e => e.message) });
+        else
+            return res.status(500).json({ success: false, msg: err.message || "An error occurred."});
+    }
 }

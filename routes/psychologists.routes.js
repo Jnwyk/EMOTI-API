@@ -10,6 +10,9 @@ router.route('/')
     .post(psychologistsController.create)
     .patch(authController.verifyToken, psychologistsController.changePassword);
 
+router.route('/:id')
+    .get(authController.verifyToken, psychologistsController.getOne)
+
 // router.route('/login')
 //     .post(psychologistsController.login);
 

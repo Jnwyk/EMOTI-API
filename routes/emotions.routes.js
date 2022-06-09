@@ -1,12 +1,14 @@
 const express = require('express');
 
 const emotionsController = require('../controllers/emotions.controller.js');
+const authController = require('../controllers/auth.controller.js');
 
 let router = express.Router({mergeParams: true})
 
 router.route('/')
-    .post(emotionsController.create)
-    .put(emotionsController.changeEmotion);
+    .get(authController.verifyToken, emotionsController.getAll)
+    .post(authController.verifyToken, emotionsController.create)
+    .put(authController.verifyToken, emotionsController.changeEmotion);
 
 router.route('/:id')
     .get(emotionsController.getOne);
