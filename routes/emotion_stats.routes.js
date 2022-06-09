@@ -5,7 +5,8 @@ const emotionStatsController = require('../controllers/emotion_stats.controller.
 let router = express.Router({mergeParams: true})
 
 router.route('/')
-    .get(emotionStatsController.findAll);
+    .get(emotionStatsController.findAll)
+    .put(emotionStatsController.changeStats);
 
 router.all('*', (req, res) => {
     res.status(404).json({message: 'NOT FOUND'});

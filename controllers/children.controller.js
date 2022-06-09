@@ -14,19 +14,18 @@ exports.create = async (req, res) => {
             name: req.body.name,
             password: bcrypt.hashSync(req.body.password, 10),
             gender: req.body.gender,
-            // remember to change this line
-            birth_date: Date.now(),
+            birth_date: req.body.bod,
             autism_level: req.body.autism_level,
             image: req.body.image,
             email_tutor: req.body.email
         })
-        res.status(201).json({ success: true, message: "New user created", username: req.body.username });
+        return res.status(201).json({ success: true, message: "New user created", username: req.body.username });
     }
     catch(err){
         if(err instanceof ValidationError)
-            res.status(400).json({ success: false, msg: err.errors.map(e => e.message) });
+            return res.status(400).json({ success: false, msg: err.errors.map(e => e.message) });
         else
-            res.status(500).json({ success: false, msg: err.message || "An error occurred."});
+            return res.status(500).json({ success: false, msg: err.message || "An error occurred."});
     }
 }
 
@@ -41,16 +40,28 @@ exports.changePassword = async (req, res) => {
         Child.update({
             password: bcrypt.hashSync(req.body.password, 10)
         }, { where: { username: req.loggedUsername } });
-        res.status(200).json({ success: true, msg: 'Password was successfully changed.'});
+        return res.status(200).json({ success: true, msg: 'Password was successfully changed.'});
     }
     catch(err){
         if(err instanceof ValidationError)
-            res.status(400).json({ success: false, msg: err.errors.map(e => e.message) });
+            return res.status(400).json({ success: false, msg: err.errors.map(e => e.message) });
         else
-            res.status(500).json({ success: false, msg: err.message || "An error occurred."});
+            return res.status(500).json({ success: false, msg: err.message || "An error occurred."});
     }
 }
 
 exports.getOne = async (req, res) => {
-    res.status(200).json({ success: true, message: 'User was found', username: 'username'})
+    try{
+        if(req.loggedRole !== 'child' || req.loggedUsername !== req.params.id){
+            return res.status(400).json({ success: false, msg: "User not allowed" });
+        }
+        let user = await Child.findOne({ where: { username: req.params.id } });
+        return res.status(200).json({ success: true, message: 'User was found', user: user})
+    }
+    catch(err){
+        if(err instanceof ValidationError)
+            return res.status(400).json({ success: false, msg: err.errors.map(e => e.message) });
+        else
+            return res.status(500).json({ success: false, msg: err.message || "An error occurred."});
+    }
 }

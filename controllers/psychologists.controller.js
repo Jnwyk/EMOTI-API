@@ -17,8 +17,7 @@ exports.create = async (req, res) => {
             name: req.body.name,
             password: bcrypt.hashSync(req.body.password, 10),
             gender: req.body.gender,
-            // remember to change this line
-            birth_date: Date.now(),
+            birth_date: req.body.bod,
             image: req.body.image,
             email: req.body.email,
             degree: req.body.degree
@@ -59,7 +58,7 @@ exports.getOne = async (req, res) => {
         if(req.loggedRole !== 'psychologist' || req.loggedUsername !== req.params.id){
             return res.status(400).json({ success: false, msg: "User not allowed" });
         }
-        let user = Psychologist.findOne({ where: { username: req.params.id } });
+        let user = await Psychologist.findOne({ where: { username: req.params.id } });
         return res.status(200).json({ success: true, message: 'User was found', user: user})
     }
     catch(err){

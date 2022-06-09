@@ -13,9 +13,6 @@ router.route('/')
 router.route('/:id')
     .get(authController.verifyToken, psychologistsController.getOne)
 
-// router.route('/login')
-//     .post(psychologistsController.login);
-
 router.all('*', (req, res) => {
     res.status(404).json({message: 'NOT FOUND'});
 })

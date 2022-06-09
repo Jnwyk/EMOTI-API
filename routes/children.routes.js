@@ -14,9 +14,6 @@ router.route('/')
 router.route('/:id')
     .get(authController.verifyToken, childController.getOne)
 
-// router.route('/login')
-    // .post(childController.login);
-
 router.use('/:idC/emotion_stats', emotionStatsRouter);
 
 router.all('*', (req, res) => {
