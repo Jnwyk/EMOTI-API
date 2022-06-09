@@ -23,6 +23,9 @@ exports.create = async (req, res) => {
         if(!req.body || !req.body.name){
             return res.status(400).json({ success: false, msg: 'Not enough data provided'});
         }
+        if(req.loggedRole === 'psychologist' && req.loggedRole === 'tutor'){
+            return res.status(400).json({ success: false, msg: 'User not allowed'});
+        }
         let newEmotion = await Emotion.create({
             name: req.body.name,
             image: req.body.image
@@ -40,7 +43,29 @@ exports.create = async (req, res) => {
 }
 
 exports.changeEmotion = async (req, res) => {
-    res.status(200).json({ success: true, message: 'Emotion was updated successfully'})
+    try{
+        if(req.loggedRole !== 'psychologist' && req.loggedRole !== 'tutor'){
+            return res.status(400).json({ success: false, msg: 'User not allowed'});
+        }
+        let emotion = await Emotion.findOne({where: { id: req.params.id }})
+        if(emotion === 'undefined'){
+            return res.status(404).json({ success: false, msg: 'Emotion not found'});
+        }
+        await emotion.update({
+            name: req.body.name,
+            image: req.body.image
+        });
+        console.log(emotion);
+        return res.status(200).json({ success: true, msg: 'Emotion was successfully updated', emotion: emotion});
+    }
+    catch(err){
+        if(err instanceof ValidationError){
+            return res.status(400).json({ success: false, msg: err.errors.map(e => e.message) });
+        }
+        else{
+            return res.status(500).json({ success: false, msg: err.message || "Unknown error" });
+        }
+    }
 }
 
 exports.getOne = async (req, res) => {
@@ -49,7 +74,7 @@ exports.getOne = async (req, res) => {
         if(emotion === 'undefined'){
             return res.status(404).json({ success: false, msg: "Emotion not found" });
         }
-        return res.status(200).json({ success: true, message: 'Emotion was found.' })
+        return res.status(200).json({ success: true, message: 'Emotion was found.', emotion: emotion })
     }
     catch(err){
         if(err instanceof ValidationError){

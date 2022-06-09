@@ -8,10 +8,10 @@ let router = express.Router({mergeParams: true})
 router.route('/')
     .get(authController.verifyToken, emotionsController.getAll)
     .post(authController.verifyToken, emotionsController.create)
-    .put(authController.verifyToken, emotionsController.changeEmotion);
 
 router.route('/:id')
-    .get(emotionsController.getOne);
+    .get(emotionsController.getOne)
+    .patch(authController.verifyToken, emotionsController.changeEmotion);
 
 router.all('*', (req, res) => {
     res.status(404).json({message: 'NOT FOUND'});
