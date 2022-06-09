@@ -5,7 +5,7 @@ const Child = db.child;
 
 exports.create = async (req, res) => {
     try{
-        if(!req.body || !req.body.username || !req.body.name || !req.body.password || !req.body.gender || !req.body.bod || !req.body.autism_level || !req.body.tutor){
+        if(!req.body || !req.body.username || !req.body.name || !req.body.password || !req.body.gender || !req.body.bod || !req.body.autism_level || !req.body.leading_tutor){
             return res.status(400).json({ success: false, msg: "Not enough data provided" });
         }
 
@@ -28,7 +28,7 @@ exports.create = async (req, res) => {
                 birth_date: req.body.bod,
                 autism_level: req.body.autism_level,
                 image: req.body.image,
-                tutor: req.body.tutor
+                leading_tutor: req.body.leading_tutor
             })
             return res.status(201).json({ success: true, message: "New user created", username: req.body.username });
         }
