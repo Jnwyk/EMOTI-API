@@ -34,8 +34,6 @@ db.child = require('./children.model.js')(sequelize, DataTypes);
 db.emotion = require('./emotions.model.js')(sequelize, DataTypes);
 db.emotion_stats = require('./emotion_stats.model.js')(sequelize, DataTypes);
 db.game_question = require('./game_question.model')(sequelize, DataTypes);
-db.link_child_psychologist = require('./link_child_psychologist.model.js')(sequelize, DataTypes);
-// db.link_child_tutor = require('./link_child_tutor.js')(sequelize, DataTypes);
 
 db.question.belongsTo(db.psychologist, { foreignKey: 'username_psychologist'});
 db.question.belongsTo(db.tutor, { foreignKey: 'username_tutor'});
@@ -47,12 +45,6 @@ db.child.belongsTo(db.tutor, { foreignKey: 'email_tutor' });
 
 db.emotion.belongsToMany(db.game, { through: db.game_question });
 db.game.belongsToMany(db.emotion, { through: db.game_question });
-
-db.psychologist.belongsToMany(db.child, { through: db.link_child_psychologist });
-db.child.belongsToMany(db.psychologist, { through: db.link_child_psychologist });
-
-// db.child.belongsToMany(db.tutor, { through: db.link_child_tutor });
-// db.tutor.belongsToMany(db.child, { through: db.link_child_tutor });
 
 (async () => {
     try {
