@@ -4,7 +4,13 @@ const { ValidationError } = require("sequelize");
 const Psychologist = db.psychologist;
 
 exports.getAll = async (req, res) => {
-    res.status(200).json({ success: true, message: 'Psychologist users successfully retrieved'})
+    try{
+        let psychologists = await Psychologist.findAll();
+        return res.status(200).json({ success: true, message: 'Psychologist users successfully retrieved', psychologists: psychologists});
+    }
+    catch{
+        return res.status(500).json({ success: false, msg: "Something went wrong"});
+    }
 }
 
 exports.create = async (req, res) => {
@@ -12,7 +18,7 @@ exports.create = async (req, res) => {
         if(!req.body || !req.body.username || !req.body.name || !req.body.password || !req.body.gender || !req.body.bod || !req.body.email || !req.body.degree){
             return res.status(400).json({ success: false, msg: "Not enough data provided" });
         }
-        
+
         const birthDate = new Date(req.body.bod);
         if(req.body.gender !== 'male' && req.body.gender !== 'female'){
             return res.status(400).json({ success: false, msg: "Wrong gender" });
