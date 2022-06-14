@@ -5,11 +5,11 @@ const Tutor = db.tutor;
 
 exports.create = async (req, res) => {
     try{
-        if(!req.body || !req.body.username || !req.body.name || !req.body.password || !req.body.gender || !req.body.bod || !req.body.email){
+        if(!req.body || !req.body.username || !req.body.name || !req.body.password || !req.body.gender || !req.body.dob || !req.body.email){
             return res.status(400).json({ success: false, msg: "Not enough data provided" });
         }
         
-        const birthDate = new Date(req.body.bod);
+        const birthDate = new Date(req.body.dob);
         if(req.body.gender !== 'male' && req.body.gender !== 'female'){
             return res.status(400).json({ success: false, msg: "Wrong gender" });
         }
@@ -25,7 +25,7 @@ exports.create = async (req, res) => {
                 name: req.body.name,
                 password: bcrypt.hashSync(req.body.password, 10),
                 gender: req.body.gender,
-                birth_date: req.body.bod,
+                birth_date: req.body.dob,
                 image: req.body.image,
                 email: req.body.email
             })
