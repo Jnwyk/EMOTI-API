@@ -2,6 +2,7 @@ const db = require("../models/index.js");
 const bcrypt = require('bcrypt');
 const { ValidationError } = require("sequelize");
 const Psychologist = db.psychologist;
+const cloudinary  = require('../config/cloudinary.config.js');
 
 exports.getAll = async (req, res) => {
     try{
@@ -20,6 +21,10 @@ exports.create = async (req, res) => {
         }
 
         const birthDate = new Date(req.body.bod);
+        let psychologist_image = null;
+        if(req.file){
+            psychologist_image = await cloudinary.uploader.upload(req.file.path);
+        }
         if(req.body.gender !== 'male' && req.body.gender !== 'female'){
             return res.status(400).json({ success: false, msg: "Wrong gender" });
         }
@@ -36,7 +41,7 @@ exports.create = async (req, res) => {
                 password: bcrypt.hashSync(req.body.password, 10),
                 gender: req.body.gender,
                 birth_date: req.body.bod,
-                image: req.body.image,
+                image: psychologist_image ? psychologist_image.url : null,
                 email: req.body.email,
                 degree: req.body.degree
             })
