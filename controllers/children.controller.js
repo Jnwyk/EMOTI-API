@@ -6,15 +6,19 @@ const cloudinary  = require('../config/cloudinary.config.js');
 
 exports.create = async (req, res) => {
     try{
-        if(!req.body || !req.body.username || !req.body.name || !req.body.password || !req.body.gender || !req.body.bod || !req.body.autism_level || !req.body.leading_tutor){
+        if(!req.body || !req.body.username || !req.body.name || !req.body.password || !req.body.gender || !req.body.dob || !req.body.autism_level || !req.body.leading_tutor){
             return res.status(400).json({ success: false, msg: "Not enough data provided" });
         }
 
+<<<<<<< HEAD
         const birthDate = new Date(req.body.bod);
         let child_image = null;
         if(req.file){
             child_image = await cloudinary.uploader.upload(req.file.path);
         }
+=======
+        const birthDate = new Date(req.body.dob);
+>>>>>>> ef96a53645ba28c344d2d5408c8772d07aa91461
         if(req.body.gender !== 'male' && req.body.gender !== 'female'){
             return res.status(400).json({ success: false, msg: "Wrong gender" });
         }
@@ -30,7 +34,7 @@ exports.create = async (req, res) => {
                 name: req.body.name,
                 password: bcrypt.hashSync(req.body.password, 10),
                 gender: req.body.gender,
-                birth_date: req.body.bod,
+                birth_date: req.body.dob,
                 autism_level: req.body.autism_level,
                 image: child_image ? child_image.url : null,
                 leading_tutor: req.body.leading_tutor
