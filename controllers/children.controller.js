@@ -9,16 +9,11 @@ exports.create = async (req, res) => {
         if(!req.body || !req.body.username || !req.body.name || !req.body.password || !req.body.gender || !req.body.dob || !req.body.autism_level || !req.body.leading_tutor){
             return res.status(400).json({ success: false, msg: "Not enough data provided" });
         }
-
-<<<<<<< HEAD
-        const birthDate = new Date(req.body.bod);
+        const birthDate = new Date(req.body.dob);
         let child_image = null;
         if(req.file){
             child_image = await cloudinary.uploader.upload(req.file.path);
         }
-=======
-        const birthDate = new Date(req.body.dob);
->>>>>>> ef96a53645ba28c344d2d5408c8772d07aa91461
         if(req.body.gender !== 'male' && req.body.gender !== 'female'){
             return res.status(400).json({ success: false, msg: "Wrong gender" });
         }
