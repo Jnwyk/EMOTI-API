@@ -25,4 +25,4 @@ app.get('*', (req, res) =>{
     res.status(404).json({ message: 'Couldn\'t find a page'})
 });
 
-app.listen(port, host, () => console.log(`App listening at http://${host}:${port}/`));
+app.listen(port, () => console.log(`App listening at http://${host}:${port}/`));
