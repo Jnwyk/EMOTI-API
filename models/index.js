@@ -46,13 +46,13 @@ db.child.belongsTo(db.tutor, { foreignKey: 'leading_tutor' });
 db.emotion.belongsToMany(db.game, { through: db.game_question });
 db.game.belongsToMany(db.emotion, { through: db.game_question });
 
-(async () => {
-    try {
-        await sequelize.sync({ alter: true });
-        console.log('DB is successfully synchronized')
-    } catch (error) {
-        console.log(error)
-    }
-})();
+// (async () => {
+//     try {
+//         await sequelize.sync({ alter: true });
+//         console.log('DB is successfully synchronized')
+//     } catch (error) {
+//         console.log(error)
+//     }
+// })();
 
 module.exports = db;

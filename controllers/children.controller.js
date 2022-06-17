@@ -2,14 +2,18 @@ const db = require("../models/index.js");
 const bcrypt = require('bcrypt');
 const { ValidationError } = require("sequelize");
 const Child = db.child;
+const cloudinary  = require('../config/cloudinary.config.js');
 
 exports.create = async (req, res) => {
     try{
         if(!req.body || !req.body.username || !req.body.name || !req.body.password || !req.body.gender || !req.body.dob || !req.body.autism_level || !req.body.leading_tutor){
             return res.status(400).json({ success: false, msg: "Not enough data provided" });
         }
-
         const birthDate = new Date(req.body.dob);
+        let child_image = null;
+        if(req.file){
+            child_image = await cloudinary.uploader.upload(req.file.path);
+        }
         if(req.body.gender !== 'male' && req.body.gender !== 'female'){
             return res.status(400).json({ success: false, msg: "Wrong gender" });
         }
@@ -27,7 +31,7 @@ exports.create = async (req, res) => {
                 gender: req.body.gender,
                 birth_date: req.body.dob,
                 autism_level: req.body.autism_level,
-                image: req.body.image,
+                image: child_image ? child_image.url : null,
                 leading_tutor: req.body.leading_tutor
             })
             return res.status(201).json({ success: true, message: "New user created", username: req.body.username });

@@ -2,14 +2,20 @@ const db = require("../models/index.js");
 const bcrypt = require('bcrypt');
 const { ValidationError } = require("sequelize");
 const Tutor = db.tutor;
+const cloudinary  = require('../config/cloudinary.config.js');
 
 exports.create = async (req, res) => {
+    console.log(req.body)
     try{
         if(!req.body || !req.body.username || !req.body.name || !req.body.password || !req.body.gender || !req.body.dob || !req.body.email){
             return res.status(400).json({ success: false, msg: "Not enough data provided" });
         }
         
         const birthDate = new Date(req.body.dob);
+        let tutor_image = null;
+        if(req.file){
+            tutor_image = await cloudinary.uploader.upload(req.file.path);
+        }
         if(req.body.gender !== 'male' && req.body.gender !== 'female'){
             return res.status(400).json({ success: false, msg: "Wrong gender" });
         }
@@ -26,7 +32,7 @@ exports.create = async (req, res) => {
                 password: bcrypt.hashSync(req.body.password, 10),
                 gender: req.body.gender,
                 birth_date: req.body.dob,
-                image: req.body.image,
+                image: tutor_image ? tutor_image.url : null,
                 email: req.body.email
             })
             return res.status(201).json({ success: true, message: "New user created", username: req.body.username });
