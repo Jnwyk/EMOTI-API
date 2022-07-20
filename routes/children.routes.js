@@ -5,23 +5,10 @@ const authController = require('../controllers/auth.controller.js');
 
 const emotionStatsRouter = require('../routes/emotion_stats.routes.js');
 
-const multer = require('multer');
-
-let storage = multer.diskStorage({
-    destination: (req, file, cb) => {
-        cb(null, '/uploads')
-    },
-    filename: (req, file, cb) => {
-        cb(null, file.fieldname + '_' + Date.now())
-    }
-});
-
-const mutlerUploads = multer({storage}).single('image');
-
 let router = express.Router({mergeParams: true})
 
 router.route('/')
-    .post(mutlerUploads, childController.create)
+    .post(childController.create)
     .patch(authController.verifyToken, childController.changePassword);
 
 router.route('/:id')

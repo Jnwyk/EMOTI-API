@@ -1,7 +1,6 @@
 const { ValidationError } = require("sequelize");
 const db = require("../models/index.js");
 const Emotion = db.emotion;
-const cloudinary  = require('../config/cloudinary.config.js');
 
 exports.getAll = async (req, res) => {
     try{   
@@ -27,13 +26,9 @@ exports.create = async (req, res) => {
         if(req.loggedRole === 'psychologist' && req.loggedRole === 'tutor'){
             return res.status(400).json({ success: false, msg: 'User not allowed'});
         }
-        let emotion_image = null;
-        if(req.file){
-            emotion_image = await cloudinary.uploader.upload(req.file.path);
-        }
         let newEmotion = await Emotion.create({
             name: req.body.name,
-            image: emotion_image ? emotion_image.url : null,
+            image: req.body.image
         });
         return res.status(201).json({ success: true, message: 'New emotion created', id: newEmotion.id})   
     }
