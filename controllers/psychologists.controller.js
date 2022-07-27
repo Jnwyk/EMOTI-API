@@ -87,3 +87,23 @@ exports.getOne = async (req, res) => {
             return res.status(500).json({ success: false, msg: err.message || "An error occurred."});
     }
 }
+
+exports.deleteOne = async (req, res) => {
+    try{
+        let psychologistUser = await Psychologist.findOne({ where: { username: req.params.id } });
+        if(psychologistUser === 'undefined'){
+            return res.status(404).json({ success: false, msg: "Psychologist not found"});
+        }
+        if(req.loggedUsername !== psychologistUser.username){
+            return res.status(400).json({ success: false, msg: "User not allowed" });
+        }
+        await Psychologist.destroy({ where: { username: req.params.id } });
+        return res.status(200).json({ success: true, msg: "Psychologist succesfully deleted", psychologist: psychologistUser})
+    }
+    catch(err){
+        if(err instanceof ValidationError)
+            return res.status(400).json({ success: false, msg: err.errors.map(e => e.message) });
+        else
+            return res.status(500).json({ success: false, msg: err.message || "An error occurred."});
+    }
+}

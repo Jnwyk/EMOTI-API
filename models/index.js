@@ -33,7 +33,6 @@ db.game = require('./games.model.js')(sequelize, DataTypes);
 db.child = require('./children.model.js')(sequelize, DataTypes);
 db.emotion = require('./emotions.model.js')(sequelize, DataTypes);
 db.emotion_stats = require('./emotion_stats.model.js')(sequelize, DataTypes);
-db.game_question = require('./game_question.model')(sequelize, DataTypes);
 
 db.question.belongsTo(db.psychologist, { foreignKey: 'username_psychologist'});
 db.question.belongsTo(db.tutor, { foreignKey: 'username_tutor'});
@@ -43,16 +42,13 @@ db.emotion.belongsToMany(db.child, { through: db.emotion_stats });
 
 db.child.belongsTo(db.tutor, { foreignKey: 'leading_tutor' });
 
-db.emotion.belongsToMany(db.game, { through: db.game_question });
-db.game.belongsToMany(db.emotion, { through: db.game_question });
-
-(async () => {
-    try {
-        await sequelize.sync({ alter: true });
-        console.log('DB is successfully synchronized')
-    } catch (error) {
-        console.log(error)
-    }
-})();
+// (async () => {
+//     try {
+//         await sequelize.sync({ alter: true });
+//         console.log('DB is successfully synchronized')
+//     } catch (error) {
+//         console.log(error)
+//     }
+// })();
 
 module.exports = db;

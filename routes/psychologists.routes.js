@@ -12,6 +12,7 @@ router.route('/')
 
 router.route('/:id')
     .get(authController.verifyToken, psychologistsController.getOne)
+    .delete(authController.verifyToken, psychologistsController.deleteOne);
 
 router.all('*', (req, res) => {
     res.status(404).json({message: 'NOT FOUND'});

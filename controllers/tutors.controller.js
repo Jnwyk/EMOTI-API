@@ -77,3 +77,23 @@ exports.getOne = async (req, res) => {
             return res.status(500).json({ success: false, msg: err.message || "An error occurred."});
     }
 }
+
+exports.deleteOne = async (req, res) => {
+    try{
+        let tutorUser = await Tutor.findOne({ where: { username: req.params.id } });
+        if(tutorUser === 'undefined'){
+            return res.status(404).json({ success: false, msg: "Tutor not found"});
+        }
+        if(req.loggedUsername !== tutorUser.username){
+            return res.status(400).json({ success: false, msg: "User not allowed" });
+        }
+        await Tutor.destroy({ where: { username: req.params.id } });
+        return res.status(200).json({ success: true, msg: "Tutor succesfully deleted", tutor: tutorUser})
+    }
+    catch(err){
+        if(err instanceof ValidationError)
+            return res.status(400).json({ success: false, msg: err.errors.map(e => e.message) });
+        else
+            return res.status(500).json({ success: false, msg: err.message || "An error occurred."});
+    }
+}

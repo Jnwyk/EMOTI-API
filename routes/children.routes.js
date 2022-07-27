@@ -13,6 +13,7 @@ router.route('/')
 
 router.route('/:id')
     .get(authController.verifyToken, childController.getOne)
+    .delete(authController.verifyToken, childController.deleteOne);
 
 router.use('/:idC/emotion_stats', emotionStatsRouter);
 
